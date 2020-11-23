@@ -3,20 +3,24 @@ package ir.bpj.testspringboot.dto;
 import com.sun.istack.NotNull;
 import ir.bpj.testspringboot.entity.StudentEntity;
 
+import java.util.Arrays;
+
 public class StudentDto {
     private long id;
     private String name;
     private String family;
     private Integer age;
+    private byte[] image;
 
     public StudentDto() {
     }
 
-    public StudentDto(@NotNull StudentEntity studentEntity) {
-        this.id = studentEntity.getId();
-        this.name = studentEntity.getName();
-        this.family = studentEntity.getFamily();
-        this.age = studentEntity.getAge();
+    public StudentDto(@NotNull StudentEntity entity) {
+        this.id = entity.getId();
+        this.name = entity.getName();
+        this.family = entity.getFamily();
+        this.age = entity.getAge();
+        this.image = entity.getImage();
     }
 
     public StudentEntity getEntity(){
@@ -25,6 +29,7 @@ public class StudentDto {
         entity.setName(name);
         entity.setFamily(family);
         entity.setAge(age);
+        entity.setImage(image);
         return entity;
     }
 
@@ -60,6 +65,14 @@ public class StudentDto {
         this.age = age;
     }
 
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
     @Override
     public String toString() {
         return "{" +
@@ -67,6 +80,7 @@ public class StudentDto {
                 ", name='" + name + '\'' +
                 ", family='" + family + '\'' +
                 ", age=" + age +
+                ", image=" + Arrays.toString(image) +
                 '}';
     }
 }

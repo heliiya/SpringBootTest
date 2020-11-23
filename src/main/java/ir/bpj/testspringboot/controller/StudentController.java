@@ -3,7 +3,13 @@ package ir.bpj.testspringboot.controller;
 import ir.bpj.testspringboot.dto.StudentDto;
 import ir.bpj.testspringboot.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -14,12 +20,28 @@ public class StudentController {
     @Autowired
     private StudentService service;
 
+    private byte[] image;
+
     @PostMapping(value = "/save")
     public String save(@RequestBody StudentDto dto) {
+        dto.setImage(image);
         boolean save = service.save(dto);
         if(save)
             return "Saved" + " " + dto.getName() + " " + dto.getFamily();
         return "Failed to save!";
+    }
+
+    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+            , produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity<byte[]> saveImage(@ModelAttribute MultipartFile multipartFile) {
+        try {
+            image = StreamUtils.copyToByteArray(multipartFile.getInputStream());
+            return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(image);
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @GetMapping(value = "/show")

@@ -18,6 +18,8 @@ public class StudentEntity {
     private String family;
     @Column(name = "AGE")
     private Integer age;
+    @Column(name = "IMAGE")
+    private byte[] image;
 
     public long getId() {
         return id;
@@ -49,5 +51,13 @@ public class StudentEntity {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 }
