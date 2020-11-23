@@ -1,5 +1,6 @@
 package ir.bpj.testspringboot.dto;
 
+import com.sun.istack.NotNull;
 import ir.bpj.testspringboot.entity.StudentEntity;
 
 public class StudentDto {
@@ -11,7 +12,7 @@ public class StudentDto {
     public StudentDto() {
     }
 
-    public StudentDto(StudentEntity studentEntity) {
+    public StudentDto(@NotNull StudentEntity studentEntity) {
         this.id = studentEntity.getId();
         this.name = studentEntity.getName();
         this.family = studentEntity.getFamily();

@@ -1,10 +1,11 @@
 package ir.bpj.testspringboot.service;
 
-import ir.bpj.testspringboot.entity.StudentEntity;
 import ir.bpj.testspringboot.dto.StudentDto;
+import ir.bpj.testspringboot.entity.StudentEntity;
 import ir.bpj.testspringboot.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +14,7 @@ import java.util.Optional;
 public class StudentService {
 
     @Autowired
-    StudentRepository repository;
+    private StudentRepository repository;
 
     public boolean save(StudentDto dto){
         StudentEntity entity = dto.getEntity();
@@ -77,8 +78,7 @@ public class StudentService {
     public StudentDto find(Long id){
         try {
             Optional<StudentEntity> entity = repository.findById(id);
-            StudentDto dto = new StudentDto(entity.get());
-            return dto;
+            return new StudentDto(entity.get());
         } catch (Exception e){
             System.err.println(e.getMessage());
         }
