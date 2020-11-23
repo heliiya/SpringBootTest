@@ -66,7 +66,7 @@ public class StudentController {
     public String delete(@PathVariable Long id) {
         boolean delete = service.delete(id);
         if(delete)
-            return "Deleted" + " " + id;
+            return "Deleted student by id = " + " " + id;
         return "Failed to delete!";
     }
 
