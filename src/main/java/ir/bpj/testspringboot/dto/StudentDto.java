@@ -2,7 +2,10 @@ package ir.bpj.testspringboot.dto;
 
 import com.sun.istack.NotNull;
 import ir.bpj.testspringboot.entity.StudentEntity;
-
+import ir.bpj.testspringboot.helper.ImageHelper;
+import org.json.JSONObject;
+import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
 import java.util.Arrays;
 
 public class StudentDto {
@@ -10,9 +13,15 @@ public class StudentDto {
     private String name;
     private String family;
     private Integer age;
-    private byte[] image;
+    private String image;
 
-    public StudentDto() {
+    public StudentDto(String data, MultipartFile image) throws IOException {
+        JSONObject jsonObject = new JSONObject(data);
+        this.id = jsonObject.getLong("id");
+        this.name = jsonObject.getString("name");
+        this.family = jsonObject.getString("family");
+        this.age = jsonObject.getInt("age");
+        this.image = ImageHelper.convertImageByteArrayToBase64String(image.getBytes());
     }
 
     public StudentDto(@NotNull StudentEntity entity) {
@@ -20,7 +29,7 @@ public class StudentDto {
         this.name = entity.getName();
         this.family = entity.getFamily();
         this.age = entity.getAge();
-        this.image = entity.getImage();
+        this.image = ImageHelper.convertImageByteArrayToBase64String(entity.getImage());
     }
 
     public StudentEntity getEntity(){
@@ -29,48 +38,16 @@ public class StudentDto {
         entity.setName(name);
         entity.setFamily(family);
         entity.setAge(age);
-        entity.setImage(image);
+        entity.setImage(ImageHelper.convertBase64StringToImageByteArray(image));
         return entity;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getFamily() {
         return family;
-    }
-
-    public void setFamily(String family) {
-        this.family = family;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
     }
 
     @Override
@@ -80,7 +57,7 @@ public class StudentDto {
                 ", name='" + name + '\'' +
                 ", family='" + family + '\'' +
                 ", age=" + age +
-                ", image=" + Arrays.toString(image) +
+                ", image=" + image +
                 '}';
     }
 }

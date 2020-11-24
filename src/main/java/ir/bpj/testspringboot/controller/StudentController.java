@@ -4,8 +4,6 @@ import ir.bpj.testspringboot.dto.StudentDto;
 import ir.bpj.testspringboot.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,28 +18,27 @@ public class StudentController {
     @Autowired
     private StudentService service;
 
-    private byte[] image;
-
-    @PostMapping(value = "/save")
+    /*@PostMapping(value = "/save")
     public String save(@RequestBody StudentDto dto) {
-        dto.setImage(image);
         boolean save = service.save(dto);
         if(save)
             return "Saved" + " " + dto.getName() + " " + dto.getFamily();
         return "Failed to save!";
     }
+    */
 
-    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE
-            , produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity<byte[]> saveImage(@ModelAttribute MultipartFile multipartFile) {
+    @PostMapping(value = "/save", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public String save(@RequestParam("image") MultipartFile image, @RequestParam("data") String data) {
         try {
-            image = StreamUtils.copyToByteArray(multipartFile.getInputStream());
-            return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(image);
+            StudentDto dto = new StudentDto(data, image);
+            boolean save = service.save(dto);
+            if(save)
+                return "Saved" + " " + dto.getName() + " " + dto.getFamily();
         } catch (IOException e) {
-            System.err.println(e.getMessage());
             e.printStackTrace();
+            System.err.println(e.getMessage());
         }
-        return null;
+        return "Failed to save!";
     }
 
     @GetMapping(value = "/show")
@@ -68,19 +65,31 @@ public class StudentController {
         return "Not found any students!";
     }
 
-    @PostMapping(value = "/update")
-    public String update(@RequestBody StudentDto dto) {
-        boolean update = service.update(dto);
-        if(update)
-            return "Updated" + " " + dto.getName() + " " + dto.getFamily();
+    @PostMapping(value = "/update", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public String update(@RequestParam("image") MultipartFile image, @RequestParam("data") String data) {
+        try {
+            StudentDto dto = new StudentDto(data, image);
+            boolean update = service.update(dto);
+            if(update)
+                return "Updated" + " " + dto.getName() + " " + dto.getFamily();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println(e.getMessage());
+        }
         return "Failed to update!";
     }
 
-    @PostMapping(value = "/delete")
-    public String delete(@RequestBody StudentDto dto) {
-        boolean delete = service.delete(dto);
-        if(delete)
-            return "Deleted" + " " + dto.getName() + " " + dto.getFamily();
+    @PostMapping(value = "/delete", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public String delete(@RequestParam("image") MultipartFile image, @RequestParam("data") String data) {
+        try {
+            StudentDto dto = new StudentDto(data, image);
+            boolean delete = service.delete(dto);
+            if(delete)
+                return "Deleted" + " " + dto.getName() + " " + dto.getFamily();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println(e.getMessage());
+        }
         return "Failed to delete!";
     }
 
