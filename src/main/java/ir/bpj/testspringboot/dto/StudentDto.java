@@ -4,17 +4,18 @@ import ir.bpj.testspringboot.entity.StudentEntity;
 import ir.bpj.testspringboot.helper.imagebase64.ImageHelper;
 import ir.bpj.testspringboot.helper.customvalidation.unique.Unique;
 import ir.bpj.testspringboot.service.StudentService;
+import ir.bpj.testspringboot.util.Constants;
 import org.springframework.format.annotation.DateTimeFormat;
 import javax.validation.constraints.*;
 import java.util.Date;
 
 public class StudentDto {
     @NotNull
-    @Unique(service = StudentService.class, fieldName = "id", message = "{id.unique.violation}")
+    @Unique(service = StudentService.class, fieldName = Constants.ID_FIELD_NAME, message = "{id.unique.violation}")
     private long id;
     @NotNull @Size(max = 10, min = 10) @Digits(integer = 10, fraction = 0)
     @NotBlank(message = "National Id is mandatory")
-    @Unique(service = StudentService.class, fieldName = "nationalId", message = "{nationalId.unique.violation}")
+    @Unique(service = StudentService.class, fieldName = Constants.NATIONAL_ID_FIELD_NAME, message = "{nationalId.unique.violation}")
     private String nationalId;
     @Size(max = 30)
     private String name;
@@ -22,7 +23,6 @@ public class StudentDto {
     private String family;
     @Max(99)
     private Integer age;
-    //todo validate image
     private String image;
     @Email
     private String email;

@@ -4,7 +4,11 @@ import ir.bpj.testspringboot.dto.StudentDto;
 import ir.bpj.testspringboot.entity.StudentEntity;
 import ir.bpj.testspringboot.helper.customvalidation.unique.FieldValueExists;
 import ir.bpj.testspringboot.repository.StudentRepository;
+import ir.bpj.testspringboot.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -21,17 +25,6 @@ public class StudentService implements FieldValueExists {
     public boolean save(StudentDto dto){
         StudentEntity entity = dto.getEntity();
         try {
-            repository.save(entity);
-            return true;
-        } catch (Exception e){
-            System.err.println(e.getMessage());
-        }
-        return false;
-    }
-
-    public boolean update(StudentDto dto){
-        StudentEntity entity = dto.getEntity();
-        try {
             repository.saveAndFlush(entity);
             return true;
         } catch (Exception e){
@@ -40,6 +33,24 @@ public class StudentService implements FieldValueExists {
         return false;
     }
 
+    @CachePut(value = Constants.STUDENTS_CACHE_VALUE, key = "#dto.id")
+    public boolean update(StudentDto dto){
+        StudentEntity entity = dto.getEntity();
+        try {
+            long entityId = entity.getId();
+            if(repository.existsById(entityId)) {
+                repository.saveAndFlush(entity);
+                return true;
+            }else {
+                System.err.println("Not found student by id = " + entityId);
+            }
+        } catch (Exception e){
+            System.err.println(e.getMessage());
+        }
+        return false;
+    }
+
+    @CacheEvict(value = Constants.STUDENTS_CACHE_VALUE, key = "#dto.id")
     public boolean delete(StudentDto dto){
         StudentEntity entity = dto.getEntity();
         try {
@@ -51,6 +62,7 @@ public class StudentService implements FieldValueExists {
         return false;
     }
 
+    @CacheEvict(value = Constants.STUDENTS_CACHE_VALUE, key = "#id")
     public boolean delete(Long id){
         try {
             repository.deleteById(id);
@@ -61,6 +73,7 @@ public class StudentService implements FieldValueExists {
         return false;
     }
 
+    @CacheEvict(value = Constants.STUDENTS_CACHE_VALUE, key = "#nationalId")
     public boolean delete(String nationalId){
         try {
             repository.deleteByNationalId(nationalId);
@@ -71,6 +84,7 @@ public class StudentService implements FieldValueExists {
         return false;
     }
 
+    @Cacheable(value = Constants.STUDENTS_CACHE_VALUE)
     public List<StudentDto> findAll(){
         List<StudentDto> dtos = new ArrayList<>();
         try {
@@ -87,6 +101,7 @@ public class StudentService implements FieldValueExists {
         return dtos;
     }
 
+    @Cacheable(value = Constants.STUDENTS_CACHE_VALUE)
     public StudentDto find(Long id){
         try {
             Optional<StudentEntity> entity = repository.findById(id);
@@ -97,6 +112,7 @@ public class StudentService implements FieldValueExists {
         return null;
     }
 
+    @Cacheable(value = Constants.STUDENTS_CACHE_VALUE)
     public List<StudentDto> find(String name){
         List<StudentDto> dtos = new ArrayList<>();
         try {
@@ -115,15 +131,15 @@ public class StudentService implements FieldValueExists {
 
     @Override
     public boolean fieldValueExists(Object value, String fieldName) throws UnsupportedOperationException {
-        Assert.notNull(fieldName);
+        Assert.notNull(fieldName, "Field name is null");
 
         if (value == null)
             return false;
 
-        if (fieldName.equals("id"))
+        if (fieldName.equals(Constants.ID_FIELD_NAME))
             return existsId((long) value);
 
-        if(fieldName.equals("nationalId"))
+        if(fieldName.equals(Constants.NATIONAL_ID_FIELD_NAME))
             return existsNationalId(value.toString());
 
         throw new UnsupportedOperationException("Field name not supported");
