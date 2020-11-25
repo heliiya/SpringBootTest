@@ -7,6 +7,10 @@ import java.util.List;
 
 public interface StudentRepository extends JpaRepository<StudentEntity, Long> {
 
-    List<StudentEntity> findByName(String name) throws Exception;
+    List<StudentEntity> findAllByName(String name) throws Exception;
+
+    void deleteByNationalId(String nationalId) throws Exception;
+
+    StudentEntity findByNationalId(String nationalId) throws Exception;
 
 }
