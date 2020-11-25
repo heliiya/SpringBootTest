@@ -1,8 +1,8 @@
 package ir.bpj.testspringboot.dto;
 
 import ir.bpj.testspringboot.entity.StudentEntity;
-import ir.bpj.testspringboot.helper.ImageHelper;
-import ir.bpj.testspringboot.helper.validation.Unique;
+import ir.bpj.testspringboot.helper.imagebase64.ImageHelper;
+import ir.bpj.testspringboot.helper.customvalidation.unique.Unique;
 import ir.bpj.testspringboot.service.StudentService;
 import org.springframework.format.annotation.DateTimeFormat;
 import javax.validation.constraints.*;

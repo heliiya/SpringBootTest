@@ -2,7 +2,7 @@ package ir.bpj.testspringboot.service;
 
 import ir.bpj.testspringboot.dto.StudentDto;
 import ir.bpj.testspringboot.entity.StudentEntity;
-import ir.bpj.testspringboot.helper.validation.FieldValueExists;
+import ir.bpj.testspringboot.helper.customvalidation.unique.FieldValueExists;
 import ir.bpj.testspringboot.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package ir.bpj.testspringboot.helper.validation;
+package ir.bpj.testspringboot.helper.customvalidation.unique;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;

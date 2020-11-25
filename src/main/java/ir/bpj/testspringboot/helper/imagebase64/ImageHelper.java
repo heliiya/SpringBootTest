@@ -1,4 +1,4 @@
-package ir.bpj.testspringboot.helper;
+package ir.bpj.testspringboot.helper.imagebase64;
 
 import java.util.Base64;
 

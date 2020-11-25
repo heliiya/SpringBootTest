@@ -1,4 +1,4 @@
-package ir.bpj.testspringboot.helper.validation;
+package ir.bpj.testspringboot.helper.customvalidation.unique;
 
 
 import javax.validation.Constraint;
