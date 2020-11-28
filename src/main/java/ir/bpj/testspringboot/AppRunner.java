@@ -1,6 +1,5 @@
 package ir.bpj.testspringboot;
 
-import ir.bpj.testspringboot.repository.StudentRepository;
 import ir.bpj.testspringboot.service.StudentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,11 +19,11 @@ public class AppRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        logger.info(".... Fetching students");
+        /*logger.info(".... Fetching students");
         logger.info("nationalId-hhhhhhhhhh -->" + studentService.find("hhhhhhhhhh"));
         logger.info("nationalId-hhhhhhhhhh -->" + studentService.find("hhhhhhhhhh"));
         logger.info("nationalId-hhhhhhhhhh -->" + studentService.find("hhhhhhhhhh"));
-        logger.info("nationalId-hhhhhhhhhh -->" + studentService.find("hhhhhhhhhh"));
+        logger.info("nationalId-hhhhhhhhhh -->" + studentService.find("hhhhhhhhhh"));*/
     }
 
 }
