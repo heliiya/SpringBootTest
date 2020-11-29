@@ -6,39 +6,49 @@ import java.util.Objects;
 @Entity
 @Table(name = "TEST_APPAREL_SIZE", schema = "CONSULAR_EX")
 public class ApparelSizeEntity {
-    private long sizeId;
-    private Long sizeCode;
-    private Long sortOrder;
+    private int sizeId;
+    private Integer sizeCode;
+    private Integer sortOrder;
     private ProductEntity productEntity;
 
     @Id
     @Column(name = "SIZE_ID")
-    public long getSizeId() {
+    public int getSizeId() {
         return sizeId;
     }
 
-    public void setSizeId(long sizeId) {
+    public void setSizeId(int sizeId) {
         this.sizeId = sizeId;
     }
 
     @Basic
     @Column(name = "SIZE_CODE")
-    public Long getSizeCode() {
+    public Integer getSizeCode() {
         return sizeCode;
     }
 
-    public void setSizeCode(Long sizeCode) {
+    public void setSizeCode(Integer sizeCode) {
         this.sizeCode = sizeCode;
     }
 
     @Basic
     @Column(name = "SORT_ORDER")
-    public Long getSortOrder() {
+    public Integer getSortOrder() {
         return sortOrder;
     }
 
-    public void setSortOrder(Long sortOrder) {
+    public void setSortOrder(Integer sortOrder) {
         this.sortOrder = sortOrder;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "PRODUCT_ID", referencedColumnName = "PRODUCT_ID")
+    public ProductEntity getProductEntity() {
+        return productEntity;
+    }
+
+    public void setProductEntity(ProductEntity productEntity) {
+        this.productEntity = productEntity;
     }
 
     @Override
@@ -54,15 +64,5 @@ public class ApparelSizeEntity {
     @Override
     public int hashCode() {
         return Objects.hash(sizeId, sizeCode, sortOrder);
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "PRODUCT_ID", referencedColumnName = "PRODUCT_ID", nullable = false)
-    public ProductEntity getProductEntity() {
-        return productEntity;
-    }
-
-    public void setProductEntity(ProductEntity productEntity) {
-        this.productEntity = productEntity;
     }
 }

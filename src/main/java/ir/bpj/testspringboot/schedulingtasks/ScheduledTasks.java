@@ -14,7 +14,7 @@ public class ScheduledTasks {
     private static final Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
-    @Scheduled(fixedRate = 5000)
+    /*@Scheduled(fixedRate = 5000)
     public void reportCurrentTimeUsingFixedRate() {
         log.info("Using Fixed Rate {}", dateFormat.format(new Date()));
     }
@@ -27,6 +27,6 @@ public class ScheduledTasks {
     @Scheduled(cron="15 44 13 28 * ?")
     public void reportCurrentTimeUsingCron() {
         log.info("Using cron {}", dateFormat.format(new Date()));
-    }
+    }*/
 
 }

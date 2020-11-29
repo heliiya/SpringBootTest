@@ -1,7 +1,7 @@
 package ir.bpj.testspringboot.entity;
 
 import javax.persistence.*;
-import java.util.Objects;
+import java.util.List;
 
 @Entity
 @Table(name = "TEST_PRODUCT", schema = "CONSULAR_EX")
@@ -9,6 +9,8 @@ public class ProductEntity {
     private int productId;
     private String productName;
     private String otherData;
+    private List<CategoryEntity> categoryEntities;
+    private List<ColorEntity> colorEntities;
 
     @Id
     @Column(name = "PRODUCT_ID")
@@ -40,18 +42,23 @@ public class ProductEntity {
         this.otherData = otherData;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ProductEntity that = (ProductEntity) o;
-        return productId == that.productId &&
-                Objects.equals(productName, that.productName) &&
-                Objects.equals(otherData, that.otherData);
+    @ManyToMany
+    @JoinTable(name = "TEST_PRODUCT_CATEGORY", joinColumns = @JoinColumn(name = "PRODUCT_ID"), inverseJoinColumns = @JoinColumn(name = "CATEGORY_ID"))
+    public List<CategoryEntity> getCategoryEntities() {
+        return categoryEntities;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(productId, productName, otherData);
+    public void setCategoryEntities(List<CategoryEntity> categoryEntities) {
+        this.categoryEntities = categoryEntities;
+    }
+
+    @OneToMany
+    @JoinTable(name = "TEST_PRODUCT_COLOR", joinColumns = @JoinColumn(name = "PRODUCT_ID"), inverseJoinColumns = @JoinColumn(name = "COLOR_ID"))
+    public List<ColorEntity> getColorEntities() {
+        return colorEntities;
+    }
+
+    public void setColorEntities(List<ColorEntity> colorEntities) {
+        this.colorEntities = colorEntities;
     }
 }
