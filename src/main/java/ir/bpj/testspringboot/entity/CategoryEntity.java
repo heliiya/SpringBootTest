@@ -6,28 +6,28 @@ import java.util.List;
 @Entity
 @Table(name = "TEST_CATEGORY", schema = "CONSULAR_EX")
 public class CategoryEntity {
-    private int categoryId;
-    private Integer parentCategoryId;
+    private long categoryId;
+    private Long parentCategoryId;
     private String categoryName;
-    private List<ProductEntity> productEntities;
+    private List<ProductEntity> products;
 
     @Id
     @Column(name = "CATEGORY_ID")
-    public int getCategoryId() {
+    public long getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(int categoryId) {
+    public void setCategoryId(long categoryId) {
         this.categoryId = categoryId;
     }
 
     @Basic
     @Column(name = "PARENT_CATEGORY_ID")
-    public Integer getParentCategoryId() {
+    public Long getParentCategoryId() {
         return parentCategoryId;
     }
 
-    public void setParentCategoryId(Integer parentCategoryId) {
+    public void setParentCategoryId(Long parentCategoryId) {
         this.parentCategoryId = parentCategoryId;
     }
 
@@ -41,12 +41,13 @@ public class CategoryEntity {
         this.categoryName = categoryName;
     }
 
-    @ManyToMany(mappedBy = "TEST_CATEGORY")
-    public List<ProductEntity> getProductEntities() {
-        return productEntities;
+
+    @ManyToMany(targetEntity = ProductEntity.class, cascade = CascadeType.ALL)
+    public List<ProductEntity> getProducts() {
+        return products;
     }
 
-    public void setProductEntities(List<ProductEntity> productEntities) {
-        this.productEntities = productEntities;
+    public void setProducts(List<ProductEntity> productEntities) {
+        this.products = productEntities;
     }
 }

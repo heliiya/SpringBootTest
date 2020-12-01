@@ -6,19 +6,19 @@ import java.util.List;
 @Entity
 @Table(name = "TEST_PRODUCT", schema = "CONSULAR_EX")
 public class ProductEntity {
-    private int productId;
+    private long productId;
     private String productName;
     private String otherData;
-    private List<CategoryEntity> categoryEntities;
+    private List<CategoryEntity> categories;
     private List<ColorEntity> colorEntities;
 
     @Id
     @Column(name = "PRODUCT_ID")
-    public int getProductId() {
+    public long getProductId() {
         return productId;
     }
 
-    public void setProductId(int productId) {
+    public void setProductId(long productId) {
         this.productId = productId;
     }
 
@@ -42,14 +42,14 @@ public class ProductEntity {
         this.otherData = otherData;
     }
 
-    @ManyToMany
-    @JoinTable(name = "TEST_PRODUCT_CATEGORY", joinColumns = @JoinColumn(name = "PRODUCT_ID"), inverseJoinColumns = @JoinColumn(name = "CATEGORY_ID"))
-    public List<CategoryEntity> getCategoryEntities() {
-        return categoryEntities;
+    @ManyToMany(targetEntity = CategoryEntity.class, mappedBy = "products", cascade = CascadeType.ALL)
+    //@JoinTable(name = "TEST_PRODUCT_CATEGORY", joinColumns = @JoinColumn(name = "PRODUCT_ID"), inverseJoinColumns = @JoinColumn(name = "CATEGORY_ID"))
+    public List<CategoryEntity> getCategories() {
+        return categories;
     }
 
-    public void setCategoryEntities(List<CategoryEntity> categoryEntities) {
-        this.categoryEntities = categoryEntities;
+    public void setCategories(List<CategoryEntity> categoryEntities) {
+        this.categories = categoryEntities;
     }
 
     @OneToMany

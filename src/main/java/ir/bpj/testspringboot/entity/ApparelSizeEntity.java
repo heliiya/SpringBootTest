@@ -6,38 +6,38 @@ import java.util.Objects;
 @Entity
 @Table(name = "TEST_APPAREL_SIZE", schema = "CONSULAR_EX")
 public class ApparelSizeEntity {
-    private int sizeId;
-    private Integer sizeCode;
-    private Integer sortOrder;
+    private long sizeId;
+    private Long sizeCode;
+    private Long sortOrder;
     private ProductEntity productEntity;
 
     @Id
     @Column(name = "SIZE_ID")
-    public int getSizeId() {
+    public long getSizeId() {
         return sizeId;
     }
 
-    public void setSizeId(int sizeId) {
+    public void setSizeId(long sizeId) {
         this.sizeId = sizeId;
     }
 
     @Basic
     @Column(name = "SIZE_CODE")
-    public Integer getSizeCode() {
+    public Long getSizeCode() {
         return sizeCode;
     }
 
-    public void setSizeCode(Integer sizeCode) {
+    public void setSizeCode(Long sizeCode) {
         this.sizeCode = sizeCode;
     }
 
     @Basic
     @Column(name = "SORT_ORDER")
-    public Integer getSortOrder() {
+    public Long getSortOrder() {
         return sortOrder;
     }
 
-    public void setSortOrder(Integer sortOrder) {
+    public void setSortOrder(Long sortOrder) {
         this.sortOrder = sortOrder;
     }
 

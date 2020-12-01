@@ -57,7 +57,7 @@ public class StudentController {
     }
 
     @GetMapping(value = "/showByName/{name}")
-    public String findById(@PathVariable String name){
+    public String findAllByName(@PathVariable String name){
         List<StudentDto> dtos = service.find(name);
         if(dtos != null && !dtos.isEmpty())
             return Arrays.toString(dtos.toArray());
