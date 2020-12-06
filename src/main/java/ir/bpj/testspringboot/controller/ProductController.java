@@ -1,6 +1,7 @@
 package ir.bpj.testspringboot.controller;
 
 import ir.bpj.testspringboot.dto.ProductDto;
+import ir.bpj.testspringboot.dto.ProductNameAndCategoriesNameRequestDto;
 import ir.bpj.testspringboot.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +33,14 @@ public class ProductController {
     @GetMapping(value = "/showByName/{name}")
     public String findAllByName(@PathVariable String name){
         List<ProductDto> dtos = service.findByProductName(name);
+        if(dtos != null && !dtos.isEmpty())
+            return Arrays.toString(dtos.toArray());
+        return "Not found any products by this name!";
+    }
+
+    @PostMapping(value = "/showByProductNameAndCategoriesName")
+    public String findAllByProductNameAndCategoriesName(@RequestBody ProductNameAndCategoriesNameRequestDto dto){
+        List<ProductDto> dtos = service.findByProductNameAndCategoriesName(dto.getProductName(), dto.getCategoriesName(), dto.getRowNo());
         if(dtos != null && !dtos.isEmpty())
             return Arrays.toString(dtos.toArray());
         return "Not found any products by this name!";

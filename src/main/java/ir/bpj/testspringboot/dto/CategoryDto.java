@@ -9,7 +9,7 @@ public class CategoryDto {
     private long categoryId;
     private Long parentCategoryId;
     private String categoryName;
-    private List<ProductEntity> productEntities;
+    private List<ProductEntity> products;
 
     public CategoryDto() {
     }
@@ -18,7 +18,7 @@ public class CategoryDto {
         this.categoryId = entity.getCategoryId();
         this.parentCategoryId = entity.getParentCategoryId();
         this.categoryName = entity.getCategoryName();
-        this.productEntities = entity.getProducts();
+        this.products = entity.getProducts();
     }
 
     public CategoryEntity getEntity(){
@@ -26,7 +26,7 @@ public class CategoryDto {
         entity.setCategoryId(categoryId);
         entity.setParentCategoryId(parentCategoryId);
         entity.setCategoryName(categoryName);
-        entity.setProducts(productEntities);
+        entity.setProducts(products);
         return entity;
     }
 
@@ -54,12 +54,12 @@ public class CategoryDto {
         this.categoryName = categoryName;
     }
 
-    public List<ProductEntity> getProductEntities() {
-        return productEntities;
+    public List<ProductEntity> getProducts() {
+        return products;
     }
 
-    public void setProductEntities(List<ProductEntity> productEntities) {
-        this.productEntities = productEntities;
+    public void setProducts(List<ProductEntity> products) {
+        this.products = products;
     }
 
     @Override
@@ -68,7 +68,7 @@ public class CategoryDto {
                 "categoryId=" + categoryId +
                 ", parentCategoryId=" + parentCategoryId +
                 ", categoryName='" + categoryName + '\'' +
-                ", productEntities=" + productEntities +
+                ", products=" + products +
                 '}';
     }
 }

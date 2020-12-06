@@ -42,12 +42,23 @@ public class CategoryEntity {
     }
 
 
-    @ManyToMany(targetEntity = ProductEntity.class, cascade = CascadeType.ALL)
+    @ManyToMany
+    @JoinTable(name = "TEST_PRODUCT_CATEGORY", joinColumns = @JoinColumn(name = "CATEGORY_ID"), inverseJoinColumns = @JoinColumn(name = "PRODUCT_ID"))
     public List<ProductEntity> getProducts() {
         return products;
     }
 
-    public void setProducts(List<ProductEntity> productEntities) {
-        this.products = productEntities;
+    public void setProducts(List<ProductEntity> products) {
+        this.products = products;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "categoryId=" + categoryId +
+                ", parentCategoryId=" + parentCategoryId +
+                ", categoryName='" + categoryName + '\'' +
+                ", products=" + products +
+                '}';
     }
 }

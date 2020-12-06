@@ -42,8 +42,8 @@ public class ProductEntity {
         this.otherData = otherData;
     }
 
-    @ManyToMany(targetEntity = CategoryEntity.class, mappedBy = "products", cascade = CascadeType.ALL)
-    //@JoinTable(name = "TEST_PRODUCT_CATEGORY", joinColumns = @JoinColumn(name = "PRODUCT_ID"), inverseJoinColumns = @JoinColumn(name = "CATEGORY_ID"))
+    @ManyToMany
+    @JoinTable(name = "TEST_PRODUCT_CATEGORY", joinColumns = @JoinColumn(name = "PRODUCT_ID"), inverseJoinColumns = @JoinColumn(name = "CATEGORY_ID"))
     public List<CategoryEntity> getCategories() {
         return categories;
     }
@@ -61,4 +61,5 @@ public class ProductEntity {
     public void setColorEntities(List<ColorEntity> colorEntities) {
         this.colorEntities = colorEntities;
     }
+
 }
