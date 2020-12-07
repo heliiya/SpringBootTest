@@ -30,17 +30,26 @@ public class ProductController {
         return "Not found any products!";
     }
 
-    @GetMapping(value = "/showByName/{name}")
+   /* @GetMapping(value = "/showByName/{name}")
     public String findAllByName(@PathVariable String name){
-        List<ProductDto> dtos = service.findByProductName(name);
+        //List<ProductDto> dtos = service.findByProductName(name);
+        List<ProductDto> dtos = service.findAll(name, null, 5);
+        if(dtos != null && !dtos.isEmpty())
+            return Arrays.toString(dtos.toArray());
+        return "Not found any products by this name!";
+    }
+*/
+    @PostMapping(value = "/showByProductNameAndCategoriesName")
+    public String findAllByProductNameAndCategoriesName(@RequestBody ProductNameAndCategoriesNameRequestDto dto){
+        List<ProductDto> dtos = service.findAllByProductNameAndCategoriesName(dto.getProductName(), dto.getCategoriesName(), dto.getRowNo());
         if(dtos != null && !dtos.isEmpty())
             return Arrays.toString(dtos.toArray());
         return "Not found any products by this name!";
     }
 
-    @PostMapping(value = "/showByProductNameAndCategoriesName")
-    public String findAllByProductNameAndCategoriesName(@RequestBody ProductNameAndCategoriesNameRequestDto dto){
-        List<ProductDto> dtos = service.findByProductNameAndCategoriesName(dto.getProductName(), dto.getCategoriesName(), dto.getRowNo());
+    @PostMapping(value = "/showByProductNameAndCategoriesNameUsingSpecification")
+    public String findAllByProductNameAndCategoriesNameUsingSpecification(@RequestBody ProductNameAndCategoriesNameRequestDto dto){
+        List<ProductDto> dtos = service.findAllByProductNameAndCategoriesNameUsingSpecification(dto.getProductName(), dto.getCategoriesName(), dto.getRowNo());
         if(dtos != null && !dtos.isEmpty())
             return Arrays.toString(dtos.toArray());
         return "Not found any products by this name!";
