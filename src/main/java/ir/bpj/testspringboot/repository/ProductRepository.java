@@ -24,7 +24,7 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long>, J
     @Query("select p from ProductEntity p, CategoryEntity c where p.productName = :productName and c.categoryName in :categoriesName")
     Page<ProductEntity> findByProductNameAndCategoryNameNamedParams(@Param("productName") String productName,
                                                                     @Param("categoriesName") List<String> categoriesName,
-                                                                    Pageable pageable);
+                                                                    Pageable pageable) throws Exception;
 
     @Override
     Page<ProductEntity> findAll(@Nullable Specification spec, Pageable pageable);

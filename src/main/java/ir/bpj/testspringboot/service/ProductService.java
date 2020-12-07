@@ -7,9 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import specification.ProductSpecifications;
-import specification.Specification;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,21 +83,26 @@ public class ProductService {
         List<ProductDto> dtos = new ArrayList<>();
         try {
             Pageable pageable = PageRequest.of(0, rowNo);
-            Specification<ProductEntity> productHasThisName = ProductSpecifications.productHasThisName(productName);
-            Specification<ProductEntity> categoryHasTheseNames = ProductSpecifications.categoryHasTheseNames(categoriesName);
+            Specification<ProductEntity> productHasThisName = productHasThisName(productName);
+            Specification<ProductEntity> categoryHasTheseNames = categoryHasTheseNames(categoriesName);
             Page<ProductEntity> page = repository.findAll(where(productHasThisName).and(categoryHasTheseNames), pageable);
             List<ProductEntity> entities = page.getContent();
             if(!entities.isEmpty()){
-                entities.forEach(entity -> {
-                    ProductDto dto = new ProductDto(entity);
-                    dtos.add(dto);
-                });
+                entities.forEach(entity -> dtos.add(new ProductDto(entity)));
             }
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println(e.getMessage());
         }
         return dtos;
+    }
+
+    private Specification<ProductEntity> productHasThisName(String productName) {
+        return (root, query, cb) -> cb.equal(root.get("productName"), productName);
+    }
+
+    private Specification<ProductEntity> categoryHasTheseNames(List<String> categoriesName) {
+        return (root, query, cb) -> root.join("categories").get("categoryName").in(categoriesName);
     }
 
 }
