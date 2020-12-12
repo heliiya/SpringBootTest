@@ -11,11 +11,11 @@ import java.util.Date;
 
 public class StudentDto {
     @NotNull
-    @Unique(service = StudentService.class, fieldName = Constants.ID_FIELD_NAME, message = "{id.unique.violation}")
+    //@Unique(service = StudentService.class, fieldName = Constants.ID_FIELD_NAME, message = "{id.unique.violation}")
     private long id;
     @NotNull @Size(max = 10, min = 10) @Digits(integer = 10, fraction = 0)
     @NotBlank(message = "National Id is mandatory")
-    @Unique(service = StudentService.class, fieldName = Constants.NATIONAL_ID_FIELD_NAME, message = "{nationalId.unique.violation}")
+    //@Unique(service = StudentService.class, fieldName = Constants.NATIONAL_ID_FIELD_NAME, message = "{nationalId.unique.violation}")
     private String nationalId;
     @Size(max = 30)
     private String name;
@@ -40,7 +40,8 @@ public class StudentDto {
         this.name = entity.getName();
         this.family = entity.getFamily();
         this.age = entity.getAge();
-        this.image = ImageHelper.convertImageByteArrayToBase64String(entity.getImage());
+        byte[] image = entity.getImage();
+        this.image = image == null ? null : ImageHelper.convertImageByteArrayToBase64String(image);
         this.email = entity.getEmail();
         this.mobile = entity.getMobile();
         this.birthDate = entity.getBirthDate();
@@ -53,7 +54,7 @@ public class StudentDto {
         entity.setName(name);
         entity.setFamily(family);
         entity.setAge(age);
-        entity.setImage(ImageHelper.convertBase64StringToImageByteArray(image));
+        entity.setImage(image == null || image.trim().isEmpty() ? null : ImageHelper.convertBase64StringToImageByteArray(image));
         entity.setEmail(email);
         entity.setMobile(mobile);
         entity.setBirthDate(birthDate);
@@ -143,7 +144,7 @@ public class StudentDto {
                 ", image='" + image + '\'' +
                 ", email='" + email + '\'' +
                 ", mobile='" + mobile + '\'' +
-                ", birthDate='" + birthDate.toString() + '\'' +
+                ", birthDate='" + birthDate == null ? "" : birthDate.toString() + '\'' +
                 '}';
     }
 }

@@ -22,23 +22,21 @@ public class StudentService implements FieldValueExists {
     @Autowired
     private StudentRepository repository;
 
-    public boolean save(StudentDto dto){
-        StudentEntity entity = dto.getEntity();
+    public boolean save(StudentEntity entity) throws IllegalArgumentException {
         try {
             repository.saveAndFlush(entity);
             return true;
         } catch (Exception e){
             System.err.println(e.getMessage());
+            throw new IllegalArgumentException();
         }
-        return false;
     }
 
     @CachePut(value = Constants.STUDENTS_CACHE_VALUE, key = "#dto.id")
-    public boolean update(StudentDto dto){
-        StudentEntity entity = dto.getEntity();
+    public boolean update(StudentEntity entity){
         try {
             long entityId = entity.getId();
-            if(repository.existsById(entityId)) {
+            if(existsId(entityId)) {
                 repository.saveAndFlush(entity);
                 return true;
             }else {
@@ -102,7 +100,7 @@ public class StudentService implements FieldValueExists {
     }
 
     @Cacheable(value = Constants.STUDENTS_CACHE_VALUE)
-    public StudentDto find(Long id){
+    public StudentDto findById(Long id){
         try {
             Optional<StudentEntity> entity = repository.findById(id);
             return new StudentDto(entity.get());
@@ -113,7 +111,7 @@ public class StudentService implements FieldValueExists {
     }
 
     @Cacheable(value = Constants.STUDENTS_CACHE_VALUE)
-    public List<StudentDto> find(String name){
+    public List<StudentDto> findAllByName(String name){
         List<StudentDto> dtos = new ArrayList<>();
         try {
             List<StudentEntity> entities = repository.findAllByName(name);

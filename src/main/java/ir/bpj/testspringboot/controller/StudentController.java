@@ -20,7 +20,7 @@ public class StudentController {
 
     @PostMapping(value = "/save")
     public String save(@RequestBody @Validated StudentDto dto) {
-        boolean save = service.save(dto);
+        boolean save = service.save(dto.getEntity());
         if(save)
             return "Saved" + " " + dto.getName() + " " + dto.getFamily();
         return "Failed to save!";
@@ -50,7 +50,7 @@ public class StudentController {
 
     @GetMapping(value = "/showById/{id}")
     public String findById(@PathVariable Long id){
-        StudentDto dto = service.find(id);
+        StudentDto dto = service.findById(id);
         if(dto != null)
             return dto.toString();
         return "Not found student by id = " + id;
@@ -58,7 +58,7 @@ public class StudentController {
 
     @GetMapping(value = "/showByName/{name}")
     public String findAllByName(@PathVariable String name){
-        List<StudentDto> dtos = service.find(name);
+        List<StudentDto> dtos = service.findAllByName(name);
         if(dtos != null && !dtos.isEmpty())
             return Arrays.toString(dtos.toArray());
         return "Not found any students!";
@@ -66,7 +66,7 @@ public class StudentController {
 
     @PostMapping(value = "/update")
     public String update(@RequestBody @Validated StudentDto dto) {
-        boolean update = service.update(dto);
+        boolean update = service.update(dto.getEntity());
         if(update)
             return "Updated" + " " + dto.getName() + " " + dto.getFamily();
         return "Failed to update!";
